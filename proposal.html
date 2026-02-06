@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CitizenAI Underwriting Pilot | Proposal Presentation</title>
+    <style>
+        :root {
+            --primary: #6c56ff;
+            --secondary: #00f3ff;
+            --accent: #ff2a6d;
+            --dark: #0a0e17;
+            --darker: #05080f;
+            --light: #f0f4ff;
+            --gray: #8a94b0;
+            --success: #00d68f;
+            --warning: #ffc107;
+            --danger: #ff4d4f;
+            --slide-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker), #1a1f36);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .presentation-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Navigation Sidebar */
+        .nav-sidebar {
+            width: 80px;
+            background: rgba(15, 20, 40, 0.92);
+            border-right: 1px solid rgba(108, 86, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px 0;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(108, 86, 255, 0.5);
+        }
+        
+        .nav-dots {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .nav-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(108, 86, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-dot.active {
+            background: var(--secondary);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--secondary);
+        }
+        
+        .nav-dot:hover {
+            transform: scale(1.2);
+            background: var(--primary);
+        }
+        
+        /* Slides Container */
+        .slides-container {
+            flex: 1;
+            margin-left: 80px;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            position: relative;
+        }
+        
+        .slides-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Slide Styles */
+        .slide {
+            min-height: 100vh;
+            padding: 60px 10%;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(108, 86, 255, 0.08) 0%, rgba(15, 20, 40, 0) 70%);
+            z-index: -1;
+        }
+        
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .slide-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--light), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .slide-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            min-width: 60px;
+            text-align: center;
+            padding: 8px 15px;
+            background: rgba(0, 20, 40, 0.7);
+            border-radius: 20px;
+            border: 1px solid var(--secondary);
+        }
+        
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Special Slide Styles */
+        .title-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 10%;
+        }
+        
+        .title-slide .slide-title {
+            font-size: 4.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--secondary), var(--primary), var(--light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 2.2rem;
+            color: var(--gray);
+            margin: 25px 0 40px;
+            max-width: 800px;
+        }
+        
+        .prepared-by {
+            margin-top: 60px;
+            text-align: left;
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        .prepared-by h3 {
+            font-size: 1.8rem;
+            margin: 15px 0;
+            color: var(--gray);
+        }
+        
+        .date {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 40px;
+            color: var(--secondary);
+        }
+        
+        /* Content Elements */
+        .executive-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .summary-card {
+            background: rgba(25, 30, 55, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(108, 86, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(108, 86, 255, 0.25);
+            border-color: var(--secondary);
+        }
+        
+        .summary-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .summary-card ul {
+            padding-left: 25px;
+            margin-top: 15px;
+        }
+        
+        .summary-card li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .objective-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .objective-card {
+            background: rgba(25, 30, 55, 0.7);
+            border-radius: 18px;
+            padding: 25px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+        
+        .objective-card:hover {
+            transform: translateX(5px);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .objective-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .objective-card h3::before {
+            content: "•";
+            color: var(--secondary);
+            font-size: 2.5rem;
+            line-height: 0.5;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .team-member {
+            background: rgba(25, 30, 55, 0.7);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(108, 86, 255, 0.2);
+        }
+        
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.15);
+            border-color: var(--secondary);
+        }
+        
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 25px rgba(108, 86, 255, 0.5);
+        }
+        
+        .member-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .member-role {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .financial-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 35px 0;
+            background: rgba(25, 30, 55, 0.7);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .financial-table th {
+            background: linear-gradient(135deg, var(--primary), #4a37d6);
+            padding: 18px 25px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .financial-table td {
+            padding: 16px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .financial-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .financial-table tr:hover td {
+            background: rgba(35, 40, 65, 0.8);
+        }
+        
+        .financial-table .highlight-row td {
+            background: rgba(0, 243, 255, 0.1);
+            font-weight: 600;
+        }
+        
+        .timeline-container {
+            position: relative;
+            margin: 50px 0 30px;
+            padding-left: 30px;
+        }
+        
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20px;
+            height: calc(100% - 40px);
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 40px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -17px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 3px solid var(--primary);
+        }
+        
+        .timeline-period {
+            background: rgba(25, 30, 55, 0.7);
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            border: 1px solid var(--primary);
+        }
+        
+        .timeline-title {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .metric-card {
+            background: rgba(25, 30, 55, 0.7);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            transition: var(--transition);
+        }
+        
+        .metric-card:hover {
+            transform: scale(1.03);
+            border-color: var(--secondary);
+            box-shadow: 0 8px 25px rgba(0, 243, 255, 0.2);
+        }
+        
+        .metric-value {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin: 15px 0;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .metric-label {
+            font-size: 1.3rem;
+            color: var(--gray);
+        }
+        
+        .signature-section {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        
+        .signature-box {
+            background: rgba(25, 30, 55, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .signature-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--secondary);
+            text-align: center;
+        }
+        
+        .signature-line {
+            width: 80%;
+            height: 2px;
+            background: var(--gray);
+            margin: 40px auto;
+            position: relative;
+        }
+        
+        .signature-line::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 25px;
+            background: rgba(15, 20, 40, 0.9);
+            text-align: center;
+            line-height: 25px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .thank-you-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 10%;
+        }
+        
+        .thank-you-slide .slide-title {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--success), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .contact-info {
+            margin-top: 40px;
+            font-size: 1.8rem;
+            background: rgba(25, 30, 55, 0.7);
+            padding: 25px 50px;
+            border-radius: 20px;
+            border: 1px solid var(--secondary);
+        }
+        
+        .contact-info div {
+            margin: 10px 0;
+        }
+        
+        .contact-label {
+            color: var(--gray);
+            margin-right: 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: var(--gray);
+            font-size: 1.1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 50px;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 243, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 243, 255, 0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 50px 7%;
+            }
+            
+            .slide-title {
+                font-size: 2.5rem;
+            }
+            
+            .objective-grid, .team-grid, .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .signature-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .financial-table {
+                font-size: 0.95rem;
+            }
+            
+            .financial-table th, .financial-table td {
+                padding: 12px 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-sidebar {
+                width: 60px;
+                padding: 20px 0;
+            }
+            
+            .logo {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .nav-dots {
+                gap: 10px;
+            }
+            
+            .nav-dot {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .slides-container {
+                margin-left: 60px;
+            }
+            
+            .slide {
+                padding: 40px 5%;
+            }
+            
+            .slide-title {
+                font-size: 2.2rem;
+            }
+            
+            .slide-number {
+                font-size: 1.5rem;
+                min-width: 50px;
+                padding: 6px 12px;
+            }
+            
+            .title-slide .slide-title {
+                font-size: 3.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.8rem;
+            }
+            
+            .date {
+                font-size: 2rem;
+            }
+            
+            .objective-grid, .team-grid, .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .signature-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .financial-table {
+                font-size: 0.95rem;
+            }
+            
+            .financial-table th, .financial-table td {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="nav-sidebar">
+            <div class="logo">CAI</div>
+            <div class="nav-dots">
+                <div class="nav-dot active"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+                <div class="nav-dot"></div>
+            </div>
+        </div>
+        
+        <div class="slides-container">
+            <!-- Slide 1: Title Slide -->
+            <div class="slide title-slide" id="slide-1">
+                <h1 class="slide-title">CitizenAI Underwriting & Risk Assessment Pilot</h1>
+                <div class="subtitle">Revolutionizing Insurance Operations with AI-Powered Underwriting While Ensuring 100% Data Sovereignty</div>
+                <div class="prepared-by">
+                    <h3>Prepared for:</h3>
+                    <div class="highlight">Citizen Life Insurance</div>
+                    <h3>Prepared by:</h3>
+                    <div class="highlight">AI Solutions & Development Team</div>
+                </div>
+                <div class="date">February 4, 2026</div>
+            </div>
+            
+            <!-- Slide 2: Executive Summary -->
+            <div class="slide" id="slide-2">
+                <div class="slide-header">
+                    <div class="slide-title">Executive Summary</div>
+                    <div class="slide-number">2</div>
+                </div>
+                <div class="slide-content">
+                    <div class="executive-summary">
+                        <div class="summary-card">
+                            <h3><span class="pulse">⚡</span> Efficiency Transformation</h3>
+                            <p>Reduce policy processing time by <span class="highlight">60-70%</span> through intelligent automation of routine underwriting tasks while maintaining accuracy and regulatory compliance.</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3><span class="pulse">🛡️</span> Data Sovereignty</h3>
+                            <p>100% data residency within Nepal. All PII and proprietary data remains securely on Citizen Life's local servers.</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3><span class="pulse">💡</span> Strategic Investment</h3>
+                            <p>Pilot development investment: <span class="highlight">NPR 15,00,000</span><br>
+                            Monthly operational costs: <span class="highlight">NPR 60,750 - 194,400</span><br>
+                            Clear pathway to on-premise infrastructure ownership in 2027.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3: Core Objectives -->
+            <div class="slide" id="slide-3">
+                <div class="slide-header">
+                    <div class="slide-title">Core Objectives</div>
+                    <div class="slide-number">3</div>
+                </div>
+                <div class="slide-content">
+                    <div class="objective-grid">
+                        <div class="objective-card">
+                            <h3>Efficiency Transformation</h3>
+                            <p>Reduce policy processing time by 60-70% through intelligent automation of routine underwriting tasks, document verification, and risk assessment calculations.</p>
+                        </div>
+                        <div class="objective-card">
+                            <h3>Data Sovereignty</h3>
+                            <p>Maintain 100% data residency within Nepal. All PII and proprietary Citizen Life data never leaves Nepali soil, ensuring full compliance with local regulations.</p>
+                        </div>
+                        <div class="objective-card">
+                            <h3>Intelligent Decision Support</h3>
+                            <p>Implement confidence-based routing where high-confidence cases receive immediate processing while complex cases are flagged for human review with AI-generated summaries.</p>
+                        </div>
+                        <div class="objective-card">
+                            <h3>Continuous Learning</h3>
+                            <p>Establish Human-in-the-Loop training framework where the AI system continuously learns from underwriter decisions, improving accuracy while maintaining human oversight.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 4: Project Team -->
+            <div class="slide" id="slide-4">
+                <div class="slide-header">
+                    <div class="slide-title">Project Team & Expertise</div>
+                    <div class="slide-number">4</div>
+                </div>
+                <div class="slide-content">
+                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: var(--gray); max-width: 800px;">
+                        Our multidisciplinary team combines technical excellence, domain expertise, and project management discipline specifically assembled for insurance underwriting automation.
+                    </p>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="member-avatar">BT</div>
+                            <div class="member-name">Bidushi Thapa</div>
+                            <span class="member-role">Product Manager & Lead Designer</span>
+                            <p>Leads product vision, PRD development, and UI/UX design. Primary liaison between technical implementation and business requirements.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">AG</div>
+                            <div class="member-name">Ason Gautam</div>
+                            <span class="member-role">Lead Developer</span>
+                            <p>Architects core AI agent system, confidence scoring algorithms, API integrations, and Human-in-the-Loop interfaces.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">SS</div>
+                            <div class="member-name">Swornima Shrestha</div>
+                            <span class="member-role">Lead Engineer</span>
+                            <p>Leads infrastructure design, GPU architecture, secure data bridge implementation, and training pipeline development.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">AD</div>
+                            <div class="member-name">Asmin Dhakal</div>
+                            <span class="member-role">Project Manager</span>
+                            <p>Orchestrates project lifecycle, stakeholder communication, risk management, and ensures alignment between technical implementation and business objectives.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 5: AI Training & Methodology -->
+            <div class="slide" id="slide-5">
+                <div class="slide-header">
+                    <div class="slide-title">AI Training & Methodology</div>
+                    <div class="slide-number">5</div>
+                </div>
+                <div class="slide-content">
+                    <h2 style="font-size: 2.2rem; margin-bottom: 30px; text-align: center; background: linear-gradient(to right, var(--secondary), var(--primary)); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                        Human-in-the-Loop (HITL) Framework
+                    </h2>
+                    <div style="display: flex; justify-content: center; margin: 40px 0;">
+                        <div style="background: rgba(25, 30, 55, 0.7); border-radius: 20px; padding: 30px; width: 100%; max-width: 900px; border: 1px solid var(--primary);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 25px; flex-wrap: wrap; gap: 20px;">
+                                <div style="text-align: center; flex: 1; min-width: 200px;">
+                                    <div style="font-size: 3.5rem; font-weight: 800; color: var(--success);">85-100%</div>
+                                    <div style="font-size: 1.5rem; margin-top: 10px; color: var(--secondary);">High Confidence</div>
+                                    <div style="margin-top: 15px; color: var(--gray);">Auto-approved with standard monitoring and random quality checks</div>
+                                </div>
+                                <div style="text-align: center; flex: 1; min-width: 200px;">
+                                    <div style="font-size: 3.5rem; font-weight: 800; color: var(--warning);">70-84%</div>
+                                    <div style="font-size: 1.5rem; margin-top: 10px; color: var(--secondary);">Medium Confidence</div>
+                                    <div style="margin-top: 15px; color: var(--gray);">Fast-tracked to underwriters with AI-generated summaries highlighting specific areas requiring attention</div>
+                                </div>
+                                <div style="text-align: center; flex: 1; min-width: 200px;">
+                                    <div style="font-size: 3.5rem; font-weight: 800; color: var(--danger);">Below 70%</div>
+                                    <div style="font-size: 1.5rem; margin-top: 10px; color: var(--secondary);">Low Confidence</div>
+                                    <div style="margin-top: 15px; color: var(--gray);">Full human review with AI providing research assistance rather than recommendations</div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <div style="font-size: 1.4rem; color: var(--gray);">
+                                    Every underwriter decision feeds back into the training system, creating a continuous learning loop that improves accuracy over time
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px; font-size: 1.2rem; color: var(--gray);">
+                        Figure 1: Human-in-the-Loop (HITL) Workflow with Confidence-Based Routing
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 6: Financial Investment -->
+            <div class="slide" id="slide-6">
+                <div class="slide-header">
+                    <div class="slide-title">Financial Investment & Infrastructure</div>
+                    <div class="slide-number">6</div>
+                </div>
+                <div class="slide-content">
+                    <h2 style="font-size: 2.2rem; margin: 30px 0 25px; color: var(--secondary);">Project Development Fee: NPR 15,00,000</h2>
+                    <table class="financial-table">
+                        <thead>
+                            <tr>
+                                <th>Deliverable Component</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Product Requirements Document</td>
+                                <td>Complete workflow mapping, decision logic specification, UI/UX design</td>
+                            </tr>
+                            <tr>
+                                <td>System Architecture & Design</td>
+                                <td>Technical specifications, security protocols, infrastructure design</td>
+                            </tr>
+                            <tr>
+                                <td>AI Agent Development</td>
+                                <td>Core AI engine, confidence scoring, routing logic, API integrations</td>
+                            </tr>
+                            <tr>
+                                <td>Training Pipeline Setup</td>
+                                <td>Data preparation, model training, HITL feedback integration</td>
+                            </tr>
+                            <tr>
+                                <td>Secure Infrastructure Setup</td>
+                                <td>GPU infrastructure, secure tunnels, monitoring systems</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td colspan="2">Complete pilot phase development with testing, documentation, training, and project management</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h2 style="font-size: 2.2rem; margin: 40px 0 25px; color: var(--secondary);">Monthly Infrastructure Costs (2026)</h2>
+                    <table class="financial-table">
+                        <thead>
+                            <tr>
+                                <th>Infrastructure Tier</th>
+                                <th>Monthly Cost</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Standard (A40 GPU)</td>
+                                <td>$450 USD ≈ NPR 60,750</td>
+                                <td>Steady-state operations, moderate training updates</td>
+                            </tr>
+                            <tr>
+                                <td>High-Performance (H100 NVL)</td>
+                                <td>$1,440 USD ≈ NPR 194,400</td>
+                                <td>Rapid training, large-scale updates, time-critical operations</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td colspan="3">Exchange Rate: 1 USD = 135 NPR (actual billing uses prevailing rate at time of payment)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Slide 7: Project Timeline -->
+            <div class="slide" id="slide-7">
+                <div class="slide-header">
+                    <div class="slide-title">Project Timeline & Milestones</div>
+                    <div class="slide-number">7</div>
+                </div>
+                <div class="slide-content">
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <div class="timeline-period">Weeks 1-3</div>
+                            <div class="timeline-title">Phase 1: Discovery & PRD</div>
+                            <p>Workflow mapping with underwriting team, risk assessment logic documentation, UI/UX design, confidence threshold calibration</p>
+                            <div style="margin-top: 10px; color: var(--secondary); font-weight: 600;">Week 3 Milestone: Complete PRD with logic specifications and UI mockups (REQUIRED: Formal PRD sign-off)</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-period">Weeks 4-5</div>
+                            <div class="timeline-title">Phase 2: System Design</div>
+                            <p>Technical architecture design, security protocol specifications, GPU infrastructure setup, API integration planning</p>
+                            <div style="margin-top: 10px; color: var(--secondary); font-weight: 600;">Week 5 Milestone: System architecture document and security implementation plan (REQUIRED: System design sign-off)</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-period">Weeks 6-10</div>
+                            <div class="timeline-title">Phase 3: Development & Training</div>
+                            <p>AI agent development, training on historical data, HITL interface implementation, integration with existing systems, confidence calibration</p>
+                            <div style="margin-top: 10px; color: var(--secondary); font-weight: 600;">Week 8: Alpha version with core functionality<br>Week 10: Beta version with full integration and initial accuracy metrics</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-period">Weeks 11-14</div>
+                            <div class="timeline-title">Phase 4: Pilot Launch</div>
+                            <p>User acceptance testing, staff training sessions, production deployment, performance monitoring, iterative refinement</p>
+                            <div style="margin-top: 10px; color: var(--secondary); font-weight: 600;">Week 14 Milestone: Production-ready system deployed with complete documentation and performance metrics report</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(25, 30, 55, 0.7); border-radius: 16px; padding: 20px; margin-top: 30px; border-left: 3px solid var(--secondary);">
+                        <div style="font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                            <span>📅</span> Weekly Progress Reporting
+                        </div>
+                        <div>Asmin will provide weekly status reports documenting progress against milestones, identifying risks or blockers, and outlining planned activities for the upcoming week.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 8: Legal & Compliance -->
+            <div class="slide" id="slide-8">
+                <div class="slide-header">
+                    <div class="slide-title">Legal & Compliance Framework</div>
+                    <div class="slide-number">8</div>
+                </div>
+                <div class="slide-content">
+                    <div class="objective-grid">
+                        <div class="objective-card">
+                            <h3><span class="pulse">📜</span> Nepal Privacy Act</h3>
+                            <p>Designed for compliance with data minimization, purpose limitation, consent management, right to access/correction, and data breach protocols. All processing restricted to underwriting purposes with explicit consent.</p>
+                        </div>
+                        <div class="objective-card">
+                            <h3><span class="pulse">🔒</span> Data Sovereignty</h3>
+                            <p>Contractual guarantees for physical data location within Nepal, Nepali legal jurisdiction, no persistent foreign processing, and audit rights. All PII remains on servers physically located within Nepal at all times.</p>
+                        </div>
+                        <div class="objective-card">
+                            <h3><span class="pulse">🏛️</span> IRAN Compliance</h3>
+                            <p>Transparent decision-making with explainable AI, human oversight for complex cases, non-discrimination testing, complete audit trails, and documentation standards meeting Insurance Regulatory Authority of Nepal requirements.</p>
+                        </div>
+                        <div class="objective-card">
+                            <h3><span class="pulse">🛡️</span> Security Architecture</h3>
+                            <p>Multi-factor authentication, role-based access control, intrusion detection, regular security audits, and incident response protocols. Comprehensive logging of all data access and system interactions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 9: Success Metrics -->
+            <div class="slide" id="slide-9">
+                <div class="slide-header">
+                    <div class="slide-title">Success Metrics & KPIs</div>
+                    <div class="slide-number">9</div>
+                </div>
+                <div class="slide-content">
+                    <p style="font-size: 1.3rem; margin-bottom: 35px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; color: var(--gray);">
+                        Clear success criteria enable objective evaluation of pilot outcomes. All metrics will be compiled into a comprehensive pilot performance report.
+                    </p>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Processing Time Reduction</div>
+                            <div class="metric-value">65%</div>
+                            <div>Target: 60-70% reduction in average time from application to decision</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Decision Accuracy</div>
+                            <div class="metric-value">≥95%</div>
+                            <div>Agreement between AI recommendations and human underwriter final decisions</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Auto-Approval Rate</div>
+                            <div class="metric-value">50%</div>
+                            <div>40-60% of applications processed with high confidence without human review</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">System Uptime</div>
+                            <div class="metric-value">99.5%</div>
+                            <div>≥99% availability during business hours with automated monitoring</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 40px; background: rgba(25, 30, 55, 0.7); border-radius: 16px; padding: 25px; border: 1px solid rgba(255, 42, 109, 0.3);">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                            <div style="font-size: 2.5rem;">🎯</div>
+                            <div style="font-size: 1.8rem; font-weight: 700;">Additional KPIs:</div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; font-size: 1.15rem;">
+                            <div><span style="color: var(--secondary);">✓</span> Underwriter Satisfaction: ≥80% report improved efficiency</div>
+                            <div><span style="color: var(--secondary);">✓</span> False Positive Rate: &lt;5% of auto-approved cases overturned</div>
+                            <div><span style="color: var(--secondary);">✓</span> Customer Satisfaction: Measurable improvement in application processing speed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 10: Terms & Conditions -->
+            <div class="slide" id="slide-10">
+                <div class="slide-header">
+                    <div class="slide-title">Terms & Conditions Highlights</div>
+                    <div class="slide-number">10</div>
+                </div>
+                <div class="slide-content">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px;">
+                        <div style="background: rgba(25, 30, 55, 0.7); border-radius: 20px; padding: 25px; border-left: 3px solid var(--primary);">
+                            <h3 style="font-size: 1.7rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span>💰</span> Payment Terms
+                            </h3>
+                            <p>Development Fee: NPR 15,00,000 payable in four installments:<br>
+                            • 20% (NPR 3,00,000) upon contract signing<br>
+                            • 30% (NPR 4,50,000) upon PRD & design sign-offs<br>
+                            • 30% (NPR 4,50,000) upon Agent Training completion<br>
+                            • 20% (NPR 3,00,000) upon Final Pilot Rollout</p>
+                        </div>
+                        <div style="background: rgba(25, 30, 55, 0.7); border-radius: 20px; padding: 25px; border-left: 3px solid var(--accent);">
+                            <h3 style="font-size: 1.7rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span>⚖️</span> Intellectual Property
+                            </h3>
+                            <p>Upon final payment, Citizen Life owns all custom code, configurations, and materials developed specifically for this project. Development team retains ownership of general-purpose tools and libraries.</p>
+                        </div>
+                        <div style="background: rgba(25, 30, 55, 0.7); border-radius: 20px; padding: 25px; border-left: 3px solid var(--success);">
+                            <h3 style="font-size: 1.7rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span>🛡️</span> Data Protection
+                            </h3>
+                            <p>Development team implements industry-standard security measures and complies with all applicable data protection laws. Professional liability insurance covering data breaches and technology errors. Immediate notification in case of breach.</p>
+                        </div>
+                        <div style="background: rgba(25, 30, 55, 0.7); border-radius: 20px; padding: 25px; border-left: 3px solid var(--warning);">
+                            <h3 style="font-size: 1.7rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span>🔄</span> Support & Maintenance
+                            </h3>
+                            <p>90 days post-pilot support included:<br>
+                            • Critical issues: 4 hours response<br>
+                            • High priority: 1 business day<br>
+                            • Medium priority: 3 business days<br>
+                            • Low priority: 5 business days<br>
+                            Enhancement requests quoted separately.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 11: Signature -->
+            <div class="slide" id="slide-11">
+                <div class="slide-header">
+                    <div class="slide-title">Signature & Acceptance</div>
+                    <div class="slide-number">11</div>
+                </div>
+                <div class="slide-content">
+                    <p style="font-size: 1.4rem; margin-bottom: 30px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; color: var(--gray);">
+                        By signing below, both parties acknowledge that they have read, understood, and agree to all terms and conditions outlined in this Project Proposal and Agreement.
+                    </p>
+                    <div class="signature-section">
+                        <div class="signature-box">
+                            <div class="signature-title">FOR CITIZEN LIFE INSURANCE:</div>
+                            <div class="signature-line"></div>
+                            <div style="margin-top: 15px; font-size: 1.3rem;">
+                                <div>Authorized Signatory Name & Title</div>
+                                <div style="margin-top: 40px;">Date: _________________________</div>
+                            </div>
+                        </div>
+                        <div class="signature-box">
+                            <div class="signature-title">FOR AI SOLUTIONS & DEVELOPMENT TEAM:</div>
+                            <div class="signature-line"></div>
+                            <div style="margin-top: 15px; font-size: 1.3rem;">
+                                <div>Asmin Dhakal, Project Manager</div>
+                                <div>Bidushi Thapa, Product Manager</div>
+                                <div style="margin-top: 25px;">Date: _________________________</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 12: Thank You -->
+            <div class="slide thank-you-slide" id="slide-12">
+                <h1 class="slide-title">Thank You</h1>
+                <div class="subtitle">Transforming Underwriting Operations Through Innovative AI Technology</div>
+                <div style="font-size: 1.8rem; margin: 30px 0; max-width: 700px; line-height: 1.7;">
+                    We look forward to partnering with Citizen Life Insurance to revolutionize underwriting operations while maintaining the highest standards of data security, regulatory compliance, and operational excellence.
+                </div>
+                <div class="contact-info">
+                    <div><span class="contact-label">Project Manager:</span> Asmin Dhakal</div>
+                    <div><span class="contact-label">Email:</span> asmin.dhakal@aisolutions.dev</div>
+                    <div><span class="contact-label">Phone:</span> +977 9841XXXXXX</div>
+                </div>
+                <div class="footer">
+                    CitizenAI Underwriting & Risk Assessment Pilot | Prepared for Citizen Life Insurance | February 4, 2026
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const slidesContainer = document.querySelector('.slides-container');
+            
+            // Update active dot on scroll
+            const updateActiveDot = () => {
+                const scrollPosition = slidesContainer.scrollTop;
+                const slideHeight = slides[0].offsetHeight;
+                const activeIndex = Math.round(scrollPosition / slideHeight);
+                
+                navDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
+            };
+            
+            // Scroll to slide when dot is clicked
+            navDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    slidesContainer.scrollTo({
+                        top: slides[index].offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Initialize first dot as active
+            navDots[0].classList.add('active');
+            
+            // Update dots on scroll
+            slidesContainer.addEventListener('scroll', updateActiveDot);
+            
+            // Smooth scrolling for all internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        slidesContainer.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
