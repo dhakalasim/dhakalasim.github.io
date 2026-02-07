@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Clocks</title>
+    <title>Asim Dhakal | Digital Nexus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6c56ff;
+            --secondary: #00f3ff;
+            --dark: #0a0a12;
+            --darker: #05050a;
+            --light: #e0e0ff;
+            --gray: #8a8aa5;
+            --success: #00ff9d;
+            --warning: #ffcc00;
+            --danger: #ff4d6d;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,162 +27,493 @@
         }
         
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
-            color: white;
-            min-height: 100vh;
+            background: var(--darker);
+            color: var(--light);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(108, 86, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 20%);
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .glitch-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glitch {
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), #ff1cf7, var(--success));
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientBG 15s ease infinite, glitch 2s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(108, 86, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes glitch {
+            0% { text-shadow: 0 0 15px rgba(108, 86, 255, 0.7); }
+            25% { text-shadow: 2px 0 15px var(--secondary), -2px -2px 15px var(--primary); }
+            50% { text-shadow: -2px 0 15px var(--primary), 2px 2px 15px var(--secondary); }
+            75% { text-shadow: 2px -2px 15px var(--secondary), -2px 2px 15px var(--primary); }
+            100% { text-shadow: 0 0 15px rgba(108, 86, 255, 0.7); }
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+            border-radius: 2px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+        
+        .bio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        
+        .bio-card {
+            background: rgba(25, 25, 45, 0.7);
+            border: 1px solid rgba(108, 86, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .bio-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+            box-shadow: 0 15px 35px rgba(0, 243, 255, 0.25);
+        }
+        
+        .bio-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(108, 86, 255, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            transition: var(--transition);
+        }
+        
+        .bio-card:hover::before {
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.25) 0%, transparent 70%);
+        }
+        
+        .bio-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .bio-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+        
+        .bio-desc {
+            color: var(--gray);
+            font-size: 1.05rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 5rem 1rem;
+            background: linear-gradient(180deg, var(--darker) 0%, rgba(10, 10, 18, 0.95) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--secondary), #ff1cf7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .cta-title::after {
+            content: 'CONNECT';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: transparent;
+            background: linear-gradient(45deg, var(--primary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            opacity: 0.25;
+            animation: glitchText 3s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+        
+        @keyframes glitchText {
+            0% { clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); transform: translate(0); }
+            25% { clip-path: polygon(0 45%, 100% 45%, 100% 90%, 0 90%); transform: translate(-2px, 2px); }
+            50% { clip-path: polygon(0 10%, 100% 10%, 100% 60%, 0 60%); transform: translate(2px, -2px); }
+            75% { clip-path: polygon(0 30%, 100% 30%, 100% 80%, 0 80%); transform: translate(-1px, 1px); }
+            100% { clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); transform: translate(0); }
+        }
+        
+        .social-links {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(30, 30, 50, 0.8);
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            text-align: center;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            letter-spacing: 1px;
-        }
-        
-        .clocks-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            max-width: 1000px;
-        }
-        
-        .clock {
-            background: rgba(0, 15, 30, 0.85);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            min-width: 280px;
-            transition: transform 0.3s ease;
-        }
-        
-        .clock:hover {
-            transform: translateY(-5px);
-        }
-        
-        .city-name {
             font-size: 1.8rem;
-            margin-bottom: 15px;
-            font-weight: bold;
-            color: #4da6ff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .time {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-            color: #ffffff;
-            text-shadow: 0 0 15px rgba(77, 166, 255, 0.7);
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.6s;
         }
         
-        .date {
-            font-size: 1.2rem;
-            margin-top: 10px;
-            color: #aaa;
-            font-weight: 300;
+        .social-link:hover::before {
+            left: 100%;
         }
         
-        .timezone {
-            font-size: 1.1rem;
-            margin-top: 5px;
-            color: #66ccff;
-            font-style: italic;
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 243, 255, 0.4);
         }
         
-        @media (max-width: 600px) {
-            .clocks-container {
-                flex-direction: column;
-                align-items: center;
+        .social-link.github:hover { border-color: #333; color: #fff; }
+        .social-link.linkedin:hover { border-color: #0a66c2; color: #0a66c2; }
+        .social-link.twitter:hover { border-color: #1da1f2; color: #1da1f2; }
+        .social-link.email:hover { border-color: var(--success); color: var(--success); }
+        .social-link.spotify:hover { border-color: #1db954; color: #1db954; }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(5, 5, 10, 0.95);
+            border-top: 1px solid rgba(108, 86, 255, 0.3);
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -2;
+            opacity: 0.07;
+        }
+        
+        .matrix-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, 
+                    rgba(0, 243, 255, 0.1) 0px, 
+                    rgba(0, 243, 255, 0.1) 1px, 
+                    transparent 1px, 
+                    transparent 20px),
+                repeating-linear-gradient(90deg, 
+                    rgba(108, 86, 255, 0.1) 0px, 
+                    rgba(108, 86, 255, 0.1) 1px, 
+                    transparent 1px, 
+                    transparent 20px);
+            background-size: 20px 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .glitch {
+                font-size: 3.5rem;
             }
             
-            .time {
-                font-size: 2.8rem;
+            .subtitle {
+                font-size: 1.4rem;
             }
             
-            h1 {
-                font-size: 2rem;
+            .bio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-title {
+                font-size: 2.5rem;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <h1>World Clocks</h1>
-    <div class="clocks-container">
-        <div class="clock" id="pocatello-clock">
-            <div class="city-name">Pocatello, Idaho, USA</div>
-            <div class="time" id="pocatello-time">00:00:00 AM</div>
-            <div class="date" id="pocatello-date">Loading date...</div>
-            <div class="timezone">Mountain Time (MT)</div>
+    <div class="matrix-bg"></div>
+    <div id="particles-js"></div>
+    
+    <header class="glitch-container">
+        <div class="container">
+            <h1 class="glitch">Asim Dhakal</h1>
+            <div class="subtitle">AI Enthusiast | Wanna-be Musician | Lecturer | Husband</div>
         </div>
-        
-        <div class="clock" id="kathmandu-clock">
-            <div class="city-name">Kathmandu, Nepal</div>
-            <div class="time" id="kathmandu-time">00:00:00 AM</div>
-            <div class="date" id="kathmandu-date">Loading date...</div>
-            <div class="timezone">Nepal Time (NPT)</div>
+    </header>
+    
+    <section class="container">
+        <div class="bio-grid">
+            <div class="bio-card">
+                <i class="fas fa-brain bio-icon"></i>
+                <h2 class="bio-title">AI Enthusiast</h2>
+                <p class="bio-desc">Exploring the frontiers of artificial intelligence, machine learning, and neural networks. Building intelligent systems that shape tomorrow.</p>
+            </div>
+            <div class="bio-card">
+                <i class="fas fa-music bio-icon"></i>
+                <h2 class="bio-title">Wanna-be Musician</h2>
+                <p class="bio-desc">Creating electronic symphonies in my digital studio. Blending algorithms with melodies to compose the soundtrack of the future.</p>
+            </div>
+            <div class="bio-card">
+                <i class="fas fa-chalkboard-teacher bio-icon"></i>
+                <h2 class="bio-title">Lecturer</h2>
+                <p class="bio-desc">Sharing knowledge about AI, computer science, and emerging technologies. Inspiring the next generation of digital creators and thinkers.</p>
+            </div>
+            <div class="bio-card">
+                <i class="fas fa-heart bio-icon"></i>
+                <h2 class="bio-title">Husband</h2>
+                <p class="bio-desc">My greatest adventure. Building a life of love, support, and shared dreams with my amazing partner through all of life's algorithms.</p>
+            </div>
         </div>
-    </div>
-
+    </section>
+    
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Digital Nexus</h2>
+            <p style="max-width: 600px; margin: 0 auto 2.5rem; color: var(--gray); font-size: 1.2rem;">
+                Connect with me across the digital universe. Let's collaborate, create, and explore the intersection of technology and humanity.
+            </p>
+            <div class="social-links">
+                <a href="#" class="social-link github" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-link twitter" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link email" aria-label="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="#" class="social-link spotify" aria-label="Spotify">
+                    <i class="fab fa-spotify"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2026 Asim Dhakal. All rights reserved. Crafted with <i class="fas fa-heart" style="color: var(--danger);"></i> and quantum algorithms.</p>
+    </footer>
+    
     <script>
-        // Function to format date with day of week and month name
-        function formatDate(date, timeZone) {
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                timeZone: timeZone
-            };
-            return date.toLocaleDateString('en-US', options);
-        }
-        
-        // Function to format time with AM/PM for both clocks
-        function formatTime(date, timeZone) {
-            const options = { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit',
-                timeZone: timeZone,
-                hour12: true
-            };
-            return date.toLocaleTimeString('en-US', options);
-        }
-        
-        // Update clocks function
-        function updateClocks() {
-            const now = new Date();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Particles.js simulation (simplified version)
+            const particlesContainer = document.getElementById('particles-js');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particlesContainer.appendChild(canvas);
             
-            // Pocatello uses Mountain Time (America/Boise covers Idaho)
-            const pocatelloTimeZone = 'America/Boise';
-            document.getElementById('pocatello-time').textContent = formatTime(now, pocatelloTimeZone);
-            document.getElementById('pocatello-date').textContent = formatDate(now, pocatelloTimeZone);
+            let particles = [];
+            const particleCount = 80;
             
-            // Kathmandu uses Nepal Time (UTC+5:45)
-            const kathmanduTimeZone = 'Asia/Kathmandu';
-            document.getElementById('kathmandu-time').textContent = formatTime(now, kathmanduTimeZone);
-            document.getElementById('kathmandu-date').textContent = formatDate(now, kathmanduTimeZone);
-        }
-        
-        // Initial update
-        updateClocks();
-        
-        // Update every second
-        setInterval(updateClocks, 1000);
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.color = Math.random() > 0.5 ? '#6c56ff' : '#00f3ff';
+                    this.opacity = Math.random() * 0.5 + 0.1;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                    if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+                    
+                    // Connect particles
+                    for (let i = 0; i < particles.length; i++) {
+                        const dx = this.x - particles[i].x;
+                        const dy = this.y - particles[i].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(108, 86, 255, ${0.1 - distance/1000})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(this.x, this.y);
+                            ctx.lineTo(particles[i].x, particles[i].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(108, 86, 255, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+            
+            function initParticles() {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(10, 10, 18, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                
+                requestAnimationFrame(animateParticles);
+            }
+            
+            initParticles();
+            animateParticles();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                particles = [];
+                initParticles();
+            });
+            
+            // Glitch effect enhancement on hover
+            const glitchElement = document.querySelector('.glitch');
+            glitchElement.addEventListener('mouseenter', () => {
+                glitchElement.style.animation = 'glitch 0.3s ease-in-out infinite';
+            });
+            
+            glitchElement.addEventListener('mouseleave', () => {
+                glitchElement.style.animation = 'gradientBG 15s ease infinite, glitch 2s ease-in-out infinite';
+            });
+            
+            // Social link hover effects
+            const socialLinks = document.querySelectorAll('.social-link');
+            socialLinks.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    link.style.transform = 'translateY(-5px) scale(1.15)';
+                });
+                
+                link.addEventListener('mouseleave', () => {
+                    link.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
     </script>
 </body>
 </html>
-
 
 
