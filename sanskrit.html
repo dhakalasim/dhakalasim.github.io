@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="sa" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>संस्कृत शिक्षक संघ नेपाल</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;700&family=Shanti&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-red: #8B0000;
+            --saffron: #FF9933;
+            --emerald: #006400;
+            --sky-blue: #1E5BAF;
+            --cream: #FFF8E1;
+            --dark-brown: #3E2723;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            background-color: #f9f5f0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%238B0000' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            color: var(--dark-brown);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--deep-red) 0%, var(--dark-brown) 100%);
+            color: white;
+            padding: 1.5rem 5%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-bottom: 8px solid var(--saffron);
+        }
+        
+        .header-decoration {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23FF9933' fill-opacity='1' d='M0,128L48,144C96,160,192,192,288,186.7C384,181,480,139,576,138.7C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            font-family: 'Shanti', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--saffron);
+            border-radius: 2px;
+        }
+        
+        .tagline {
+            font-size: 1.4rem;
+            margin-top: 1.2rem;
+            color: var(--cream);
+            max-width: 800px;
+            font-weight: 300;
+        }
+        
+        nav {
+            background-color: var(--sky-blue);
+            padding: 1rem 5%;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.15);
+            margin: 0.3rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--saffron);
+            color: var(--dark-brown);
+            border-color: var(--deep-red);
+            transform: translateY(-2px);
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 2.5rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--deep-red);
+            margin: 2.5rem 0 1.8rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--saffron);
+            border-radius: 2px;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(255,248,225,0.9), rgba(255,248,225,0.95)), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238B0000' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            border: 3px solid var(--saffron);
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            color: var(--deep-red);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 1.8rem;
+            color: var(--dark-brown);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--emerald);
+            color: white;
+            padding: 0.9rem 2.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--emerald);
+            margin: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn:hover {
+            background: var(--deep-red);
+            border-color: var(--deep-red);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: var(--saffron);
+            color: var(--dark-brown);
+            border-color: var(--saffron);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--deep-red);
+            color: white;
+            border-color: var(--deep-red);
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--cream);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            border-color: var(--saffron);
+        }
+        
+        .card-icon {
+            height: 100px;
+            background: linear-gradient(135deg, var(--deep-red), var(--sky-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .card-content {
+            padding: 1.8rem;
+        }
+        
+        .card h3 {
+            font-size: 1.8rem;
+            color: var(--deep-red);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .card p {
+            color: var(--dark-brown);
+            margin-bottom: 1.2rem;
+        }
+        
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--saffron);
+            transition: all 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+        
+        .event-date {
+            display: inline-block;
+            background: var(--emerald);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+        }
+        
+        .event-title {
+            font-size: 1.6rem;
+            color: var(--deep-red);
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--deep-red) 100%);
+            color: var(--cream);
+            text-align: center;
+            padding: 2.5rem 5% 1.5rem;
+            margin-top: 3rem;
+            border-top: 8px solid var(--saffron);
+            position: relative;
+        }
+        
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Shanti', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--saffron);
+        }
+        
+        .contact-info {
+            margin: 1.8rem 0;
+            line-height: 2;
+            font-size: 1.1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.8rem 0;
+        }
+        
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--saffron);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-brown);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--emerald);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(255,255,255,0.2);
+            font-size: 1.05rem;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.8rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-link {
+                width: 100%;
+                max-width: 350px;
+                text-align: center;
+            }
+            
+            .hero h2 {
+                font-size: 2.3rem;
+            }
+            
+            .hero p {
+                font-size: 1.25rem;
+            }
+            
+            .section-title {
+                font-size: 1.9rem;
+            }
+            
+            main {
+                padding: 0 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">संस्कृत शिक्षक संघ नेपाल</div>
+            <div class="tagline">नेपालस्य संस्कृत-शिक्षकाणां समूहः - संस्कृतस्य संरक्षणाय, प्रचाराय च</div>
+        </div>
+        <div class="header-decoration"></div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="nav-link active">गृहम् (Home)</a>
+            <a href="#resources" class="nav-link">संसाधनानि (Resources)</a>
+            <a href="#lessons" class="nav-link">पाठयोजनाः (Lesson Plans)</a>
+            <a href="#community" class="nav-link">समुदायः (Community)</a>
+            <a href="#events" class="nav-link">कार्यक्रमाः (Events)</a>
+            <a href="#contact" class="nav-link">सम्पर्कः (Contact)</a>
+        </div>
+    </nav>
+    
+    <main>
+        <section class="hero" id="home">
+            <h2>संस्कृत-शिक्षणस्य पवित्रं कार्यम्</h2>
+            <p>नेपालस्य संस्कृत-शिक्षकाणां समूहः संस्कृत-भाषायाः संरक्षणे, प्रचारे च सहयोगं करोति। अत्र शिक्षकाः पाठयोजनाः, शैक्षिक-सामग्रीं, चर्चामञ्चं च प्राप्नुवन्ति।</p>
+            <a href="#resources" class="btn">संसाधनानि द्रष्टुम्</a>
+            <a href="#community" class="btn btn-secondary">समुदाये योजयितुम्</a>
+        </section>
+        
+        <h2 class="section-title" id="resources">महत्त्वपूर्णानि संसाधनानि</h2>
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <div class="card-content">
+                    <h3>पाठ्यपुस्तकानि</h3>
+                    <p>नेपाल-सर्वकारस्य अनुमोदितानि संस्कृत-पाठ्यपुस्तकानि, व्याकरण-सहायकानि च डिजिटल-रूपेण उपलभ्यानि।</p>
+                    <a href="#" class="btn btn-secondary">पुस्तकानि द्रष्टुम्</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎧</div>
+                <div class="card-content">
+                    <h3>श्रवण-सामग्री</h3>
+                    <p>संस्कृत-उच्चारणस्य नमूनाः, मन्त्राणां श्रवणम्, कथाः च नेपालीय-शैल्या निर्मिताः।</p>
+                    <a href="#" class="btn btn-secondary">श्रवणं कर्तुम्</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">✍️</div>
+                <div class="card-content">
+                    <h3>लेखन-अभ्यासाः</h3>
+                    <p>देवनागरी-लिप्याः अभ्यास-पत्राणि, रचनात्मक-कार्याणि, निबन्ध-विषयाश्च विद्यालय-स्तरानुसारम्।</p>
+                    <a href="#" class="btn btn-secondary">अभ्यासान् द्रष्टुम्</a>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title" id="lessons">पाठयोजनाः</h2>
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-icon">📖</div>
+                <div class="card-content">
+                    <h3>प्राथमिक-स्तरः</h3>
+                    <p>बालकानां कृते रोचकाः पाठाः, क्रीडाः, चित्र-सहायतया संस्कृत-शब्दानां परिचयः। (कक्षा १-५)</p>
+                    <a href="#" class="btn btn-secondary">योजनां प्राप्तुम्</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎓</div>
+                <div class="card-content">
+                    <h3>माध्यमिक-स्तरः</h3>
+                    <p>व्याकरण-प्रवेशः, सरल-गद्यांशाः, कविताः च। नेपालीय-संस्कृति-सम्बद्धाः विषयाः। (कक्षा ६-१०)</p>
+                    <a href="#" class="btn btn-secondary">योजनां प्राप्तुम्</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔬</div>
+                <div class="card-content">
+                    <h3>उच्च-माध्यमिक-स्तरः</h3>
+                    <p>साहित्य-अध्ययनम्, दार्शनिक-ग्रन्थानां परिचयः, नेपालस्य संस्कृत-परम्परायाः इतिहासः। (कक्षा ११-१२)</p>
+                    <a href="#" class="btn btn-secondary">योजनां प्राप्तुम्</a>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title" id="events">आगामिनः कार्यक्रमाः</h2>
+        <div class="events-list" id="events">
+            <div class="event-card">
+                <div class="event-date">१५ फेब्रुवरी २०२६</div>
+                <h3 class="event-title">काठमाण्डौं संस्कृत-शिक्षक-सम्मेलनम्</h3>
+                <p>राष्ट्रिय-संस्कृत-प्रतिष्ठाने, काठमाण्डौं। विषयः "डिजिटल-युगे संस्कृत-शिक्षणम्"। पंजीकरणं कुर्वन्तु।</p>
+            </div>
+            <div class="event-card">
+                <div class="event-date">५ मार्च २०२६</div>
+                <h3 class="event-title">पोखरा क्षेत्रीय-कार्यशाला</h3>
+                <p>पोखरा-विश्वविद्यालये। संस्कृत-भाषायाः शिक्षण-विधयः, छात्राणां रुचि-वर्धन-उपायाश्च।</p>
+            </div>
+            <div class="event-card">
+                <div class="event-date">२२ मार्च २०२६</div>
+                <h3 class="event-title">अन्तर्राष्ट्रिय-संस्कृत-दिवसः</h3>
+                <p>नेपाल-भरत-संयुक्त-आयोजनम्। विद्यार्थिनां कृते प्रतियोगिताः, सांस्कृतिक-कार्यक्रमाश्च।</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="#contact" class="btn" style="padding: 1rem 3rem; font-size: 1.3rem;">सम्पूर्णं कार्यक्रम-तालिका द्रष्टुम्</a>
+        </div>
+    </main>
+    
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-logo">संस्कृत शिक्षक संघ नेपाल</div>
+            <p>संस्कृतं नेपालस्य आत्मा, शिक्षकाः तस्य रक्षकाः</p>
+            
+            <div class="contact-info">
+                <p>📧 sanskrit.shikshak.nepal@gmail.com</p>
+                <p>📱 +977 9841-234567, +977 9851-765432</p>
+                <p>🏢 राष्ट्रिय संस्कृत प्रतिष्ठान, घोलाहट, काठमाण्डौं, नेपाल</p>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-icon">f</a>
+                <a href="#" class="social-icon">in</a>
+                <a href="#" class="social-icon">📱</a>
+                <a href="#" class="social-icon">▶️</a>
+            </div>
+            
+            <div class="copyright">
+                <p>© २०२६ संस्कृत शिक्षक संघ नेपाल। सर्वे अधिकाराः सुरक्षिताः।</p>
+                <p>संस्कृतं विना नेपालस्य अस्तित्वं नास्ति।</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Simple scroll behavior for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // Handle scroll for active nav link
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section, .hero');
+            const scrollPos = window.scrollY + 80;
+            
+            sections.forEach(section => {
+                if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
+                    const id = section.getAttribute('id');
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if(link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
