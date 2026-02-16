@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Now Playing - YouTube</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.0/index.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .equalizer-bar {
+            animation: equalizer 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes equalizer {
+            0% { height: 20%; }
+            100% { height: 100%; }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="text-white">
+    <div class="min-h-screen p-4 md:p-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <header class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl glass-card flex items-center justify-center">
+                            <svg class="w-7 h-7 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">Now Playing</h1>
+                            <p class="text-gray-400 text-sm">Track your YouTube listening history</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="clearHistory()" class="btn-secondary px-4 py-2 rounded-lg text-sm">
+                            Clear History
+                        </button>
+                        <button onclick="exportData()" class="btn-secondary px-4 py-2 rounded-lg text-sm">
+                            Export Data
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Now Playing Card -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse-slow"></span>
+                        Currently Playing
+                    </h2>
+                    
+                    <!-- YouTube Player -->
+                    <div id="player-container" class="aspect-video rounded-xl overflow-hidden mb-4 bg-black">
+                        <div id="youtube-player"></div>
+                    </div>
+                    
+                    <!-- Video Info -->
+                    <div id="current-track" class="hidden">
+                        <div class="flex items-start gap-4 mb-4">
+                            <img id="track-thumbnail" src="" alt="Thumbnail" class="w-20 h-20 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h3 id="track-title" class="font-semibold text-lg mb-1 line-clamp-2"></h3>
+                                <p id="track-channel" class="text-gray-400 text-sm mb-2"></p>
+                                <div class="flex items-center gap-2 text-xs text-gray-500">
+                                    <span id="track-views"></span>
+                                    <span>•</span>
+                                    <span id="track-date"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                <span id="current-time">0:00</span>
+                                <span id="duration">0:00</span>
+                            </div>
+                            <div class="h-1 bg-gray-700 rounded-full overflow-hidden">
+                                <div id="progress-bar" class="h-full bg-red-500 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Controls -->
+                        <div class="flex items-center justify-center gap-4">
+                            <button onclick="previousTrack()" class="btn-secondary p-3 rounded-full">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                                </svg>
+                            </button>
+                            <button id="play-pause-btn" onclick="togglePlayPause()" class="btn-primary p-4 rounded-full">
+                                <svg id="play-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg id="pause-icon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                                </svg>
+                            </button>
+                            <button onclick="nextTrack()" class="btn-secondary p-3 rounded-full">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Input Form -->
+                    <div class="mt-6">
+                        <label class="block text-sm text-gray-400 mb-2">Add YouTube Video URL</label>
+                        <div class="flex gap-2">
+                            <input 
+                                type="text" 
+                                id="video-url" 
+                                placeholder="https://www.youtube.com/watch?v=..." 
+                                class="glass-input flex-1 px-4 py-3 rounded-lg text-sm focus:outline-none"
+                                onkeypress="if(event.key === 'Enter') loadVideo()"
+                            >
+                            <button onclick="loadVideo()" class="btn-primary px-6 py-3 rounded-lg font-medium">
+                                Load
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Card -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold">Listening History</h2>
+                        <span id="history-count" class="text-sm text-gray-400">0 tracks</span>
+                    </div>
+                    
+                    <div id="history-list" class="space-y-3 max-h-[500px] overflow-y-auto scrollbar-thin">
+                        <div class="text-center text-gray-500 py-8">
+                            <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p>No listening history yet</p>
+                            <p class="text-sm">Add a YouTube video to get started</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Card -->
+            <div class="glass-card rounded-2xl p-6 mt-6">
+                <h2 class="text-xl font-semibold mb-4">Listening Stats</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-red-500" id="stat-total">0</div>
+                        <div class="text-sm text-gray-400">Total Tracks</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-500" id="stat-today">0</div>
+                        <div class="text-sm text-gray-400">Today</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-500" id="stat-week">0</div>
+                        <div class="text-sm text-gray-400">This Week</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-500" id="stat-month">0</div>
+                        <div class="text-sm text-gray-400">This Month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Backend simulation using localStorage
+        const Backend = {
+            save: (key, data) => {
+                localStorage.setItem(key, JSON.stringify(data));
+            },
+            
+            get: (key) => {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : null;
+            },
+            
+            delete: (key) => {
+                localStorage.removeItem(key);
+            }
+        };
+
+        // App State
+        let player = null;
+        let isPlaying = false;
+        let updateInterval = null;
+        let history = Backend.get('listeningHistory') || [];
+        let currentVideo = null;
+
+        // Initialize YouTube Player
+        function initPlayer() {
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '100%',
+                width: '100%',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 1,
+                    'rel': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log('Player ready');
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                updatePlayPauseButton();
+                startProgressUpdate();
+            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                isPlaying = false;
+                updatePlayPauseButton();
+                stopProgressUpdate();
+                
+                if (event.data === YT.PlayerState.ENDED && currentVideo) {
+                    addToHistory(currentVideo);
+                }
+            }
+        }
+
+        function startProgressUpdate() {
+            stopProgressUpdate();
+            updateInterval = setInterval(() => {
+                if (player && player.getCurrentTime) {
+                    const currentTime = player.getCurrentTime();
+                    const duration = player.getDuration();
+                    
+                    if (duration > 0) {
+                        const progress = (currentTime / duration) * 100;
+                        document.getElementById('progress-bar').style.width = `${progress}%`;
+                        document.getElementById('current-time').textContent = formatTime(currentTime);
+                        document.getElementById('duration').textContent = formatTime(duration);
+                    }
+                }
+            }, 1000);
+        }
+
+        function stopProgressUpdate() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+                updateInterval = null;
+            }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function extractVideoId(url) {
+            const patterns = [
+                /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+                /youtube\.com\/embed\/([^&\n?#]+)/,
+                /youtube\.com\/v\/([^&\n?#]+)/
+            ];
+            
+            for (const pattern of patterns) {
+                const match = url.match(pattern);
+                if (match) return match[1];
+            }
+            return null;
+        }
+
+        async function loadVideo() {
+            const urlInput = document.getElementById('video-url');
+            const url = urlInput.value.trim();
+            
+            if (!url) {
+                alert('Please enter a YouTube URL');
+                return;
+            }
+            
+            const videoId = extractVideoId(url);
+            
+            if (!videoId) {
+                alert('Invalid YouTube URL');
+                return;
+            }
+            
+            try {
+                // Fetch video details from YouTube Data API (simulated)
+                const videoData = await fetchVideoDetails(videoId);
+                
+                currentVideo = {
+                    id: videoId,
+                    title: videoData.title,
+                    channel: videoData.channel,
+                    thumbnail: videoData.thumbnail,
+                    views: videoData.views,
+                    publishedAt: videoData.publishedAt,
+                    addedAt: new Date().toISOString()
+                };
+                
+                // Load video in player
+                if (player && player.loadVideoById) {
+                    player.loadVideoById(videoId);
+                }
+                
+                // Update UI
+                updateCurrentTrackUI();
+                
+                // Add to history
+                addToHistory(currentVideo);
+                
+                // Clear input
+                urlInput.value = '';
+                
+                // Update stats
+                updateStats();
+                
+            } catch (error) {
+                console.error('Error loading video:', error);
+                alert('Failed to load video. Please try again.');
+            }
+        }
+
+        async function fetchVideoDetails(videoId) {
+            // Simulated API call - in production, use YouTube Data API
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        title: `Video ${videoId}`,
+                        channel: 'YouTube Channel',
+                        thumbnail: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
+                        views: '1.2M views',
+                        publishedAt: new Date().toISOString()
+                    });
+                }, 500);
+            });
+        }
+
+        function updateCurrentTrackUI() {
+            if (!currentVideo) return;
+            
+            document.getElementById('current-track').classList.remove('hidden');
+            document.getElementById('track-thumbnail').src = currentVideo.thumbnail;
+            document.getElementById('track-title').textContent = currentVideo.title;
+            document.getElementById('track-channel').textContent = currentVideo.channel;
+            document.getElementById('track-views').textContent = currentVideo.views;
+            document.getElementById('track-date').textContent = new Date(currentVideo.addedAt).toLocaleDateString();
+        }
+
+        function addToHistory(video) {
+            // Remove if already exists
+            history = history.filter(v => v.id !== video.id);
+            
+            // Add to beginning
+            history.unshift(video);
+            
+            // Keep only last 50
+            if (history.length > 50) {
+                history = history.slice(0, 50);
+            }
+            
+            // Save to backend
+            Backend.save('listeningHistory', history);
+            
+            // Update UI
+            renderHistory();
+            updateStats();
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById('history-list');
+            const historyCount = document.getElementById('history-count');
+            
+            historyCount.textContent = `${history.length} track${history.length !== 1 ? 's' : ''}`;
+            
+            if (history.length === 0) {
+                historyList.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p>No listening history yet</p>
+                        <p class="text-sm">Add a YouTube video to get started</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            historyList.innerHTML = history.map((video, index) => `
+                <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer" onclick="playFromHistory('${video.id}')">
+                    <img src="${video.thumbnail}" alt="${video.title}" class="w-16 h-12 rounded object-cover">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-medium text-sm truncate">${video.title}</h4>
+                        <p class="text-xs text-gray-400 truncate">${video.channel}</p>
+                        <p class="text-xs text-gray-500">${new Date(video.addedAt).toLocaleString()}</p>
+                    </div>
+                    <button onclick="event.stopPropagation(); removeFromHistory('${video.id}')" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function playFromHistory(videoId) {
+            const video = history.find(v => v.id === videoId);
+            if (!video) return;
+            
+            currentVideo = video;
+            
+            if (player && player.loadVideoById) {
+                player.loadVideoById(videoId);
+            }
+            
+            updateCurrentTrackUI();
+        }
+
+        function removeFromHistory(videoId) {
+            history = history.filter(v => v.id !== videoId);
+            Backend.save('listeningHistory', history);
+            renderHistory();
+            updateStats();
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all listening history?')) {
+                history = [];
+                Backend.save('listeningHistory', history);
+                renderHistory();
+                updateStats();
+            }
+        }
+
+        function exportData() {
+            const data = {
+                history: history,
+                exportedAt: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `listening-history-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function togglePlayPause() {
+            if (!player) return;
+            
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+
+        function updatePlayPauseButton() {
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            
+            if (isPlaying) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+
+        function previousTrack() {
+            const currentIndex = history.findIndex(v => v.id === currentVideo?.id);
+            if (currentIndex > 0) {
+                playFromHistory(history[currentIndex - 1].id);
+            }
+        }
+
+        function nextTrack() {
+            const currentIndex = history.findIndex(v => v.id === currentVideo?.id);
+            if (currentIndex >= 0 && currentIndex < history.length - 1) {
+                playFromHistory(history[currentIndex + 1].id);
+            }
+        }
+
+        function updateStats() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+            
+            const total = history.length;
+            const todayCount = history.filter(v => new Date(v.addedAt) >= today).length;
+            const weekCount = history.filter(v => new Date(v.addedAt) >= weekAgo).length;
+            const monthCount = history.filter(v => new Date(v.addedAt) >= monthAgo).length;
+            
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-today').textContent = todayCount;
+            document.getElementById('stat-week').textContent = weekCount;
+            document.getElementById('stat-month').textContent = monthCount;
+        }
+
+        // Initialize app
+        initPlayer();
+        renderHistory();
+        updateStats();
+    </script>
+</body>
+</html>
+
